@@ -1,16 +1,14 @@
 import tabula
 import pandas as pd
 import os
-from Scraping import Anexos
-
-print(Anexos.file_name)
+import acesso
 
 # Caminho do arquivo PDF
 path = os.getcwd()
 
 parent = os.path.dirname(path)
 print("Parent directory", parent)
-pdf_path = os.path.join(parent, "Scraping", "Anexo_I_Rol_2021RN_465.2021_RN627L.2024.pdf")
+pdf_path = os.path.join(parent, "1. Scraping", acesso.file_name)
 print(pdf_path)
 
 # Abre o PDF
