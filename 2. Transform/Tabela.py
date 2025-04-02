@@ -36,7 +36,7 @@ excel_path = os.path.join(scripts_folder, "dados_extraidos.xlsx")
 zip_path = os.path.join(scripts_folder, "Teste_Igor_Bomfim.zip")
 
 df_final.columns = df_final.columns.str.replace(r"[\n\r]+", " ", regex=True)
-df_final.to_csv(csv_path, index=False, encoding="utf-8-sig", sep=";", quotechar='"')
+df_final.to_csv(csv_path, index=False, encoding="utf-8", sep=";", quotechar='"')
 
 df_final.to_excel(excel_path, index=False, engine='openpyxl')
 
