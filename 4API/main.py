@@ -18,6 +18,30 @@ def carregar_dados():
     
 @app.get("/")
 def home():
+    return {
+        "mensagem": "Bem-vindo à API da Intuitive Care.",
+        "descricao": "Esta API permite consultar os dados públicos divulgados pelo Governo Federal à respeito das Operadoras cadastradas na ANS.",
+        "rotas_disponiveis": {
+            "/todos": "Exibe todos os dados disponíveis para consulta no Banco de Dados",
+            "/buscar": "Busca avançada com múltiplos filtros (registro, CNPJ, cidade, UF, modalidade)",
+            "/registro/{registro_ans}": "Consulta operadora pelo Registro ANS",
+            "/cnpj/{cnpj}": "Consulta operadora pelo CNPJ",
+            "/cidade/{cidade}": "Lista operadoras por cidade",
+            "/uf/{uf}": "Lista operadoras por estado",
+            "/modalidade/{modalidade}": "Lista operadoras por modalidade"
+        },
+        "exemplos_de_uso": {
+            "Buscar por Registro ANS": "/registro/419761",
+            "Buscar por CNPJ": "/cnpj/19541931000125",
+            "Buscar operadoras em São Paulo": "/cidade/São Paulo",
+            "Buscar operadoras em Minas Gerais": "/uf/MG",
+            "Buscar operadoras de Odontologia": "/modalidade/Odontologia de Grupo",
+            "Busca avançada (cidade + UF)": "/buscar?cidade=Belo Horizonte&uf=MG"
+        }
+    }
+
+@app.get("/todos")
+def todos():
     dados = carregar_dados()
     
     if not dados:
@@ -77,5 +101,29 @@ def get_modalidade(modalidade: str):
     
     if not resultado:
         raise HTTPException(status_code=404, detail=f"Nenhuma operadora encontrada na modalidade {modalidade}")
+
+    return resultado
+
+@app.get("/buscar")
+def buscar (
+    registro_ans: str = Query(None, alias="registro"),
+    cnpj: str = Query(None),
+    cidade: str = Query(None),
+    uf: str = Query(None),
+    modalidade: str = Query(None) 
+):
+    dados = carregar_dados()
+    
+    resultado = [
+        item for item in dados
+        if (registro_ans is None or item["Registro_ANS"].strip() == registro_ans.strip()) and
+        (cnpj is None or item["CNPJ"].strip() == cnpj.strip()) and
+        (cidade is None or item["Cidade"].strip().lower() == cidade.strip().lower()) and
+        (uf is None or item["UF"].strip().upper() == uf.strip().upper()) and
+        (modalidade is None or item["Modalidade"].strip().lower() == modalidade.strip().lower())
+    ]
+    
+    if not resultado:
+        raise HTTPException(status_code=404, detail="Nenhum resultado encontrado com os filtros fornecidos")
 
     return resultado
