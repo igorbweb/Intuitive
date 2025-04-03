@@ -8,46 +8,74 @@ import json
 app = FastAPI()
 
 JSON_PATH = os.path.join(os.path.dirname(__file__), "Relatorio_cadop.json")
-@app.get("/")
-def home():
+
+def carregar_dados():
     if not os.path.exists(JSON_PATH):
         raise HTTPException(status_code=404, detail="Arquivo JSON não encontrado")
-    
-    try:
-        df = pd.DataFrame
-        df = pd.read_csv(JSON_PATH, delimiter=";", dtype=str)
 
-        df = df.where(pd.notna(df), None)
-
-        if df.empty:
-            return {"message": "Nenhum dado encontrado no JSON"}
-        
-        return df.to_dict(orient="records")
+    with open(JSON_PATH, "r", encoding="utf-8") as file:
+        return json.load(file)
     
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao processar JSON: {str(e)}")
+@app.get("/")
+def home():
+    dados = carregar_dados()
+    
+    if not dados:
+        raise HTTPException(status_code=404, detail="Nenhum dado encontrado")
+    
+    return {"total_registros": len(dados), "dados": dados}
     
 @app.get("/registro/{registro_ans}")
 def get_registro(registro_ans: str):
-    if not os.path.exists(JSON_PATH):
-        raise HTTPException(status_code=404, detail="Arquivo JSON não encontrado")
+    dados = carregar_dados()
+    
+    resultado = [item for item in dados if item["Registro_ANS"].strip() == registro_ans.strip()]
+    
+    if not resultado:
+        raise HTTPException(status_code=404, detail=f"Registro {registro_ans} não encontrado")
 
-    try:
-        with open(JSON_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
+    return resultado
 
-        if not isinstance(data, list):
-            raise HTTPException(status_code=500, detail="Formato inválido no JSON")
+@app.get("/cnpj/{cnpj}")
+def get_cnpj(cnpj: str):
+    dados = carregar_dados()
+    
+    resultado = [item for item in dados if item["CNPJ"].strip() == cnpj.strip()]
+    
+    if not resultado:
+        raise HTTPException(status_code=404, detail=f"CNPJ {cnpj} não encontrado")
 
-        registro_ans = registro_ans.strip()
-        resultado = [item for item in data if str(item.get("Registro_ANS", "")).strip() == registro_ans]
+    return resultado
 
-        if not resultado:
-            raise HTTPException(status_code=404, detail=f"Registro {registro_ans} não encontrado")
+@app.get("/cidade/{cidade}")
+def get_cidade(cidade: str):
+    dados = carregar_dados()
+    
+    resultado = [item for item in dados if item["Cidade"].strip().lower() == cidade.strip().lower()]
+    
+    if not resultado:
+        raise HTTPException(status_code=404, detail=f"Nenhuma operadora encontrada na cidade {cidade}")
 
-        return resultado
+    return resultado
 
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=500, detail="Erro ao carregar o JSON: Formato inválido")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro ao processar JSON: {str(e)}")
+@app.get("/uf/{uf}")
+def get_uf(uf: str):
+    dados = carregar_dados()
+    
+    resultado = [item for item in dados if item["UF"].strip().upper() == uf.strip().upper()]
+    
+    if not resultado:
+        raise HTTPException(status_code=404, detail=f"Nenhuma operadora encontrada no estado {uf}")
+
+    return resultado
+
+@app.get("/modalidade/{modalidade}")
+def get_modalidade(modalidade: str):
+    dados = carregar_dados()
+    
+    resultado = [item for item in dados if item["Modalidade"].strip().lower() == modalidade.strip().lower()]
+    
+    if not resultado:
+        raise HTTPException(status_code=404, detail=f"Nenhuma operadora encontrada na modalidade {modalidade}")
+
+    return resultado
