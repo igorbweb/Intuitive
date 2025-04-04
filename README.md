@@ -129,6 +129,9 @@ O frontend deste projeto é uma interface web desenvolvida com *Vue.js*, permiti
 - Em seguida, instale as dependências do projeto:
   bash
   npm install
+
+![image](https://github.com/user-attachments/assets/b04b5c68-ae43-43a6-84eb-537444d4a880)
+
   
 
 ### Configuração:
