@@ -1,121 +1,147 @@
-1. Scraping:
+# Guia de Implementação do Projeto
 
-Este script automatiza o processo de extração e download de anexos no formato PDF disponíveis na página da Agência Nacional de Saúde Suplementar (ANS) sobre atualização do Rol de Procedimentos.
+## Scraping
 
-Acessa a página oficial da ANS e faz uma requisição HTTP para obter o conteúdo;
-Analisa o HTML utilizando a biblioteca BeautifulSoup para localizar links de anexos nomeados com "Anexo";
-Filtra e baixa apenas arquivos PDF, salvando-os no diretório do script;
-Compacta os arquivos baixados em um ZIP, se houver downloads bem-sucedidos;
-Exibe mensagens de status, indicando downloads concluídos ou possíveis falhas.
+Este script automatiza o processo de extração e download de anexos em PDF disponíveis na página oficial da Agência Nacional de Saúde Suplementar (ANS) sobre a atualização do Rol de Procedimentos.
 
-Tecnologias Utilizadas
-Python 3;
-Requests (requisição HTTP);
-BeautifulSoup (extração de dados HTML);
-Zipfile
+### Funcionalidades:
+- *Requisição HTTP* para acessar o conteúdo da página oficial da ANS.
+- *Análise HTML* com BeautifulSoup para localizar links de anexos nomeados como "Anexo".
+- *Download de arquivos PDF*: Filtra e baixa apenas os arquivos em formato PDF.
+- *Compactação em ZIP*: Caso haja downloads bem-sucedidos, os arquivos são compactados em um único arquivo ZIP.
+- *Mensagens de status*: Indica o progresso e eventuais falhas durante o processo de download.
 
-Certifique-se de ter o Python instalado e execute:
+### Tecnologias Utilizadas:
+- Python 3
+- Requests (para requisição HTTP)
+- BeautifulSoup (para extração de dados HTML)
+- Zipfile (para compactação de arquivos)
+
+### Instalação:
+Certifique-se de ter o Python instalado. Em seguida, instale as dependências:
+bash
 pip install -r requirements.txt
 
----------------------------------------------------------------------------
 
-2. Transform:
+---
 
-Este script automatiza a extração de tabelas de um documento PDF utilizando Tabula, processa os dados e os exporta para formatos estruturados (CSV e Excel). Ao final, os arquivos são compactados em um ZIP, conforme solicitado.
+## Transform
 
-Lê um arquivo PDF contendo tabelas a partir do diretório de scraping;
-Extrai tabelas das páginas 3 a 181 utilizando a técnica de detecção por grid (lattice);
-Concatena todas as tabelas extraídas em um único DataFrame;
-Limpa e normaliza os dados, removendo valores nulos, espaços extras e renomeando colunas específicas;
-Salva os dados tratados em formatos CSV e Excel;
-Compacta os arquivos extraídos em um arquivo ZIP.
+Este script automatiza a extração de tabelas de um documento PDF utilizando a biblioteca Tabula, processa os dados e os exporta para formatos estruturados (CSV e Excel).
 
-Python 3
-Tabula (extração de tabelas de PDFs)
-Pandas
-Zipfile
+### Funcionalidades:
+- *Leitura de PDF*: Lê o arquivo PDF contendo tabelas extraídas no processo de scraping.
+- *Extração de tabelas*: Utiliza a técnica de detecção por grid (lattice) para extrair tabelas das páginas 3 a 181.
+- *Limpeza e normalização*: Remove valores nulos, espaços extras e renomeia colunas específicas.
+- *Exportação*: Salva os dados tratados em formatos CSV e Excel.
+- *Compactação em ZIP*: Os arquivos exportados são compactados em um arquivo ZIP.
 
-Certifique-se de ter o Python instalado e execute:
+### Tecnologias Utilizadas:
+- Python 3
+- Tabula (extração de tabelas de PDFs)
+- Pandas (manipulação de dados)
+- Zipfile (compactação de arquivos)
+
+### Instalação:
+Certifique-se de ter o Python instalado. Em seguida, instale as dependências:
+bash
 pip install -r requirements.txt
 
-*Obs.: Para esse script é necessário ter o Java instalado para o funcionamento da lib Tabula, caso ainda não possua certifique-se de fazer o Download da versão mais recente: https://www.java.com/pt-BR/download/
 
----------------------------------------------------------------------------
+*Observação: A biblioteca **Tabula* depende do *Java*. Caso ainda não tenha o Java instalado, faça o download da versão mais recente [aqui](https://www.java.com/pt-BR/download/).
 
-3. SQL:
+---
+
+## SQL
 
 Este conjunto de scripts SQL cria e popula tabelas relacionadas a dados de operadoras de planos de saúde e suas movimentações contábeis.
 
-Criação de Tabelas
-tabela_empresas: Contém informações cadastrais das operadoras de planos de saúde, incluindo CNPJ, nome, endereço, representante e região de comercialização.
-2023 e 2024: Armazenam dados contábeis das operadoras, como código de conta, descrição e valores de saldo inicial e final.
-Os dados são carregados a partir dos arquivos CSV especificados
+### Funcionalidades:
+- *Criação de Tabelas*:
+  - tabela_empresas: Contém informações cadastrais das operadoras de planos de saúde, como CNPJ, nome, endereço, representante e região de comercialização.
+  - 2023 e 2024: Armazenam dados contábeis das operadoras, como código de conta, descrição e valores de saldo inicial e final.
+- *Importação de Dados*: Os dados são carregados a partir de arquivos CSV específicos.
 
-MySQL
+### Tecnologias Utilizadas:
+- MySQL
 
-Certifique-se de ter um banco de dados MySQL configurado.
-Execute os scripts SQL para criar as tabelas.
-Utilize os comandos LOAD DATA INFILE para importar os arquivos CSV.
-Confirme a importação utilizando consultas SELECT.
+### Instalação:
+- Certifique-se de ter um banco de dados MySQL configurado.
+- Execute os scripts SQL para criar as tabelas.
+- Use o comando LOAD DATA INFILE para importar os arquivos CSV.
+- Confirme a importação utilizando consultas SELECT.
 
----------------------------------------------------------------------------
+---
 
-4. API:
+## API
 
-Esta API foi desenvolvida com FastAPI para fornecer uma interface simples e eficiente para consulta de operadoras de planos de saúde cadastradas na Agência Nacional de Saúde Suplementar (ANS).
+Esta API foi desenvolvida com *FastAPI* para fornecer uma interface simples e eficiente para consulta de operadoras de planos de saúde cadastradas na ANS.
 
-Recursos da API
-Consulta geral: Retorna todos os registros disponíveis.
-Busca por filtros específicos: Registro ANS, CNPJ, cidade, estado (UF) e modalidade.
-Busca avançada: Permite a combinação de múltiplos filtros para uma pesquisa refinada.
-Resposta estruturada em JSON.
-CORS habilitado para permitir acesso de qualquer origem.
+### Funcionalidades:
+- *Consulta Geral*: Retorna todos os registros disponíveis.
+- *Busca por Filtros*: Filtros para consulta por Registro ANS, CNPJ, cidade, estado (UF) e modalidade.
+- *Busca Avançada*: Permite a combinação de múltiplos filtros para uma pesquisa refinada.
+- *Resposta em JSON*: Os dados são retornados de forma estruturada.
+- *CORS*: Habilitado para permitir acesso de qualquer origem.
 
-FastAPI (framework para desenvolvimento da API).
-JSON (armazenamento dos dados).
-CORS Middleware (permite chamadas de diferentes origens).
+### Tecnologias Utilizadas:
+- FastAPI (framework para desenvolvimento da API)
+- JSON (armazenamento dos dados)
+- CORS Middleware (permite chamadas de diferentes origens)
 
+### Instalação:
 Instale as dependências:
+bash
 pip install fastapi uvicorn
 
-Execute a API:
+
+### Execução:
+Inicie o servidor da API com o comando:
+bash
 uvicorn main:app --reload
 
-Acesse a documentação interativa:
-http://127.0.0.1:8000/docs
 
----------------------------------------------------------------------------
+Acesse a documentação interativa da API em:
+[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-5. VUE:
+---
 
-Além da API em FastAPI, este projeto inclui uma interface web desenvolvida com Vue.js para facilitar a consulta das operadoras de saúde cadastradas na ANS.
+## Frontend - Vue.js
 
-Formulário para pesquisa com múltiplos filtros: Registro ANS, CNPJ, Cidade, UF e Modalidade.
-Exibição de resultados em cartões responsivos.
-Integração direta com a API para consumo dos dados.
-Feedback visual para o usuário em caso de erro ou carregamento de dados.
+O frontend deste projeto é uma interface web desenvolvida com *Vue.js*, permitindo consulta interativa às operadoras de saúde cadastradas na ANS.
 
+### Funcionalidades:
+- *Formulário de Pesquisa*: Permite pesquisa com múltiplos filtros, como Registro ANS, CNPJ, cidade, UF e modalidade.
+- *Exibição de Resultados*: Exibe os resultados da pesquisa em cartões responsivos.
+- *Integração com a API*: Consome dados diretamente da API FastAPI.
+- *Feedback Visual*: Mostra mensagens de erro ou status durante o carregamento dos dados.
 
-Vue.js 3
-Axios (Consumo da API)
-TailwindCSS
+### Tecnologias Utilizadas:
+- Vue.js 3
+- Axios (para consumo da API)
+- TailwindCSS (para estilização)
 
-Instalar Dependências
+### Instalação:
+- Caso ainda não tenha, instale o Vue CLI:
+  bash
+  npm install -g @vue/cli
+  
+- Em seguida, instale as dependências do projeto:
+  bash
+  npm install
+  
 
-Caso ainda não tenha, instale o Vue CLI:
-npm install -g @vue/cli
-
-Depois, dentro do diretório do projeto, instale as dependências:
-npm install
-
-Configurar a URL da API
-Crie um arquivo .env na raiz do projeto frontend e adicione:
-
+### Configuração:
+Crie um arquivo .env na raiz do projeto e adicione a URL da API:
+plaintext
 VITE_API_URL=http://{SEU_LOCALHOST}/
-Isso garante que a aplicação se comunique com a API localmente.
 
 
-Para iniciar o servidor de desenvolvimento:
+### Execução:
+Inicie o servidor de desenvolvimento:
+bash
 npm run dev
 
-O frontend estará disponível em http://{SEU_LOCALHOST}/
+
+O frontend estará disponível em:  
+[http://{SEU_LOCALHOST}/](http://{SEU_LOCALHOST}/)
