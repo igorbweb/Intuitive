@@ -93,6 +93,7 @@
     <div v-if="operadoras.length" class="grid-response">
       <div class="card" v-for="(operadora, index) in operadoras" :key="index">
         <p><strong>Registro ANS:</strong> {{ operadora.registro_ans }}</p>
+        <p><strong>Razao Social:</strong> {{ operadora.razao }}</p>
         <p><strong>CNPJ:</strong> {{ operadora.cnpj }}</p>
         <p><strong>Cidade:</strong> {{ operadora.cidade }}</p>
         <p><strong>UF:</strong> {{ operadora.uf }}</p>
@@ -142,6 +143,7 @@ export default {
       try {
         const response = await axios.get(url)
         this.operadoras = response.data.map((op) => ({
+          razao: op.Razao_Social,
           registro_ans: op.Registro_ANS,
           cnpj: op.CNPJ,
           cidade: op.Cidade,
@@ -189,7 +191,7 @@ input {
 
 .grid-response {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 20px;
   margin-top: 20px;
 }
@@ -200,5 +202,11 @@ input {
   border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
+}
+
+@media (max-width: 768px) {
+    .grid-response {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
 }
 </style>
