@@ -4,7 +4,6 @@ import os
 import zipfile
 import acesso
 
-# Caminho do arquivo PDF
 path = os.getcwd()
 parent = os.path.dirname(path)
 

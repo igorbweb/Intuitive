@@ -127,8 +127,11 @@ export default {
       this.error = ''
       this.operadoras = []
 
-      let url = 'http://127.0.0.1:8000/buscar'
+      const apiUrl = import.meta.env.VITE_API_URL;
+      let url = `${apiUrl}buscar`
       let params = new URLSearchParams()
+
+      console.log("API URL:", import.meta.env.VITE_API_URL);
 
       Object.keys(this.search).forEach((key) => {
         if (this.search[key]) {
