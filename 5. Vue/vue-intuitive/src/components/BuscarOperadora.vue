@@ -89,7 +89,9 @@
     </button>
     <div v-if="loading" class="mt-4">Carregando...</div>
     <div v-if="error" class="mt-4 text-red-500">{{ error }}</div>
-    <div class="resultado-count text-center mt-4 text-green-500">{{ operadoras.length }} Operadoras encontradas</div>
+    <div v-if="busca && operadoras.length > 0" class="resultado-count text-center mt-4 text-green-500">
+      {{ operadoras.length }} Operadoras encontradas
+    </div>
     <div v-if="operadoras.length" class="grid-response">
       <div class="card" v-for="(operadora, index) in operadoras" :key="index">
         <p><strong>Registro ANS:</strong> {{ operadora.registro_ans }}</p>
@@ -119,13 +121,15 @@ export default {
       operadoras: [],
       loading: false,
       error: '',
+      busca: false
     }
   },
   methods: {
     async buscarOperadoras() {
-      this.loading = true
-      this.error = ''
-      this.operadoras = []
+      this.loading = true;
+      this.error = '';
+      this.operadoras = [];
+      this.busca = false;
 
       const apiUrl = import.meta.env.VITE_API_URL;
       let url = `${apiUrl}buscar`
@@ -153,6 +157,8 @@ export default {
           uf: op.UF,
           modalidade: op.Modalidade,
         }))
+
+        this.busca = true;
       } catch (err) {
         this.error = 'Erro ao buscar operadoras. Verifique os filtros e tente novamente.'
       } finally {
