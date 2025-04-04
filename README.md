@@ -102,7 +102,7 @@ uvicorn main:app --reload
 
 
 Acesse a documentação interativa da API em:
-[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+[http://{SEU_LOCALHOST}/docs](http://{SEU_LOCALHOST}/docs)
 
 ---
 
