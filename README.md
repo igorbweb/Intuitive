@@ -148,3 +148,7 @@ O frontend estará disponível em:
 
 
 ![image](https://github.com/user-attachments/assets/b04b5c68-ae43-43a6-84eb-537444d4a880)
+
+
+
+É possível fazer o teste da Aplicação na URL: https://intuitive-front-vue.vercel.app/
