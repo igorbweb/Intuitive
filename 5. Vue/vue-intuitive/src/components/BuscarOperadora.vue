@@ -89,15 +89,16 @@
     </button>
     <div v-if="loading" class="mt-4">Carregando...</div>
     <div v-if="error" class="mt-4 text-red-500">{{ error }}</div>
-    <ul v-if="operadoras.length" class="mt-4">
-      <li v-for="(operadora, index) in operadoras" :key="index" class="p-2 border rounded mb-2">
+    <div class="resultado-count text-center mt-4 text-green-500">{{ operadoras.length }} Operadoras encontradas</div>
+    <div v-if="operadoras.length" class="grid-response">
+      <div class="card" v-for="(operadora, index) in operadoras" :key="index">
         <p><strong>Registro ANS:</strong> {{ operadora.registro_ans }}</p>
         <p><strong>CNPJ:</strong> {{ operadora.cnpj }}</p>
         <p><strong>Cidade:</strong> {{ operadora.cidade }}</p>
         <p><strong>UF:</strong> {{ operadora.uf }}</p>
         <p><strong>Modalidade:</strong> {{ operadora.modalidade }}</p>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -184,5 +185,20 @@ input {
 .svg-container svg {
   max-width: 200px;
   height: auto;
+}
+
+.grid-response {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 </style>
