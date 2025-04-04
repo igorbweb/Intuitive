@@ -1,11 +1,16 @@
 from fastapi import FastAPI, Query, HTTPException
-import pandas as pd
-from typing import List
 import os
 import json
-
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 JSON_PATH = os.path.join(os.path.dirname(__file__), "Relatorio_cadop.json")
 
