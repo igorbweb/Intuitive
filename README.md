@@ -130,10 +130,7 @@ O frontend deste projeto é uma interface web desenvolvida com *Vue.js*, permiti
   bash
   npm install
 
-![image](https://github.com/user-attachments/assets/b04b5c68-ae43-43a6-84eb-537444d4a880)
-
   
-
 ### Configuração:
 Crie um arquivo .env na raiz do projeto e adicione a URL da API:
 plaintext
@@ -148,3 +145,4 @@ npm run dev
 
 O frontend estará disponível em:  
 [http://{SEU_LOCALHOST}/](http://{SEU_LOCALHOST}/)
+![image](https://github.com/user-attachments/assets/b04b5c68-ae43-43a6-84eb-537444d4a880)
