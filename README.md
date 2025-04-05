@@ -152,3 +152,6 @@ O frontend estará disponível em:
 
 
 É possível fazer o teste da Aplicação na URL: https://intuitive-front-vue.vercel.app/
+
+
+*Observação:* A primeira tentativa de acesso pode apresentar lentidão ou parecer travada no carregamento. Isso ocorre porque a API pode estar em modo de hibernação devido à inatividade. Basta recarregar a página para reativá-la e prosseguir normalmente.
